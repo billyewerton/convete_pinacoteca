@@ -33,7 +33,7 @@ class PDFtoGIFHomePage extends StatefulWidget {
   @override
   _PDFtoGIFHomePageState createState() => _PDFtoGIFHomePageState();
 }
-
+// nao esquecer de mudar para producao
 class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
   String? inputDir;
   String? outputDir;
@@ -42,7 +42,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
   double progress = 0.0;
   bool isConverting = false;
   bool cancelRequested = false;
-
+// vertificar se sao usados
   final List<int> maxKbOptions = [100, 300, 500, 700, 1000];
   int _selectedMaxKb = 500;
 
@@ -57,7 +57,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
       });
     }
   }
-
+// sim
   Future<void> _selectOutputDirectory() async {
     final directoryPath = await getDirectoryPath();
     if (directoryPath != null) {
@@ -80,7 +80,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
       });
       return;
     }
-
+ // CRITICO
     bool producao = true;
     String popplerPath = 'windows/poppler/bin/pdftoppm.exe';
     if (producao) {
@@ -100,7 +100,9 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
       });
       return;
     }
+ 
 
+    // sysate
     setState(() {
       isConverting = true;
       progress = 0.0;
@@ -118,14 +120,14 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
       setState(() {
         currentFile = name;
       });
-
+// nao
       final result = await Process.run(
         popplerPath,
         ['-png', file.path, '-rx', '200', '-ry', '200', '-scale-to', '1700', tempPrefix],
       );
 
       if (result.exitCode != 0) continue;
-
+      // final 
       final imageFiles = Directory(outputDir!)
           .listSync()
           .whereType<File>()
@@ -139,7 +141,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
         final pngFile = imageFiles[page];
         final bytes = await pngFile.readAsBytes();
         final decoded = img.decodePng(bytes);
-
+//erro
         if (decoded != null) {
           var image = decoded;
           var gif = img.encodeGif(image);
@@ -181,6 +183,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
         progress = (i + 1) / files.length;
       });
     }
+ // estado final
 
     setState(() {
       isConverting = false;
@@ -191,7 +194,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
       currentFile = '';
     });
   }
-
+ // to aqui
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -293,6 +296,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
                       ),
                     ],
                   ),
+                  // erro 1
                   SizedBox(height: 30),
                   ElevatedButton.icon(
                     onPressed: isConverting ? null : _convertPDFs,
@@ -341,7 +345,7 @@ class _PDFtoGIFHomePageState extends State<PDFtoGIFHomePage> {
             ),
           ),
 
-// FOOTER
+// FOOTER e logo com descricao
           Container(
             width: double.infinity,
             color: Colors.green.shade800,
